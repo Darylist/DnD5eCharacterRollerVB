@@ -147,5 +147,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dnd5eLargeCharacterSheet.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CharacterSheet.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -129,6 +129,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.btnReRoll = New System.Windows.Forms.Button()
         Me.txtAuditLog = New System.Windows.Forms.TextBox()
+        Me.btnSaveJpeg = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -1073,7 +1074,7 @@ Partial Class Form1
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 23)
         Me.btnSave.TabIndex = 7
-        Me.btnSave.Text = "Save"
+        Me.btnSave.Text = "Save FF"
         Me.btnSave.UseVisualStyleBackColor = True
         '
         'SaveFileDialog1
@@ -1101,11 +1102,21 @@ Partial Class Form1
         Me.txtAuditLog.Size = New System.Drawing.Size(667, 85)
         Me.txtAuditLog.TabIndex = 9
         '
+        'btnSaveJpeg
+        '
+        Me.btnSaveJpeg.Location = New System.Drawing.Point(398, 400)
+        Me.btnSaveJpeg.Name = "btnSaveJpeg"
+        Me.btnSaveJpeg.Size = New System.Drawing.Size(75, 23)
+        Me.btnSaveJpeg.TabIndex = 10
+        Me.btnSaveJpeg.Text = "Save Image"
+        Me.btnSaveJpeg.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(691, 555)
+        Me.Controls.Add(Me.btnSaveJpeg)
         Me.Controls.Add(Me.txtAuditLog)
         Me.Controls.Add(Me.btnReRoll)
         Me.Controls.Add(Me.btnSave)
@@ -1240,4 +1251,5 @@ Partial Class Form1
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
     Friend WithEvents btnReRoll As Button
     Friend WithEvents txtAuditLog As TextBox
+    Friend WithEvents btnSaveJpeg As Button
 End Class

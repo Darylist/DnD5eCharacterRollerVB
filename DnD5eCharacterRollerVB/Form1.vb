@@ -1,6 +1,9 @@
 ﻿Public Class Form1
     Private cha As Character
     Private savefile As String
+    Private mainimage As Bitmap
+    Private Auditimage As Bitmap
+    Private FilesInFolder As Integer
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -208,5 +211,92 @@ trailer
         cboClass.Items.AddRange(Character.GetClasses)
         cboRace.Items.AddRange(Character.GetRaces)
         cboBackground.Items.AddRange(Character.GetBackgrounds)
+    End Sub
+
+    Private Sub btnSaveJpeg_Click(sender As Object, e As EventArgs) Handles btnSaveJpeg.Click
+        Dim BlackPen = New Pen(System.Drawing.Color.Black, 1)
+        mainimage = New Bitmap(My.Resources.dnd5eLargeCharacterSheet)
+        Auditimage = New Bitmap(1390, 1800)
+        Dim g = Graphics.FromImage(mainimage)
+        Dim g2 = Graphics.FromImage(Auditimage)
+        g2.Clear(Color.White)
+        Dim largeFont = New Font("Times New Roman", 64, FontStyle.Bold, GraphicsUnit.Pixel)
+        Dim medFont = New Font("Times New Roman", 40, FontStyle.Regular, GraphicsUnit.Pixel)
+        Dim smallFont = New Font("Times New Roman", 16, FontStyle.Regular, GraphicsUnit.Pixel)
+
+        g.DrawString(cha.getClass.ToString & " 1", medFont, BlackPen.Brush, New Point(611, 111))
+        g.DrawString(cha.getBackground.ToString, medFont, BlackPen.Brush, New Point(871, 111))
+        g.DrawString(cha.getRace.ToString, medFont, BlackPen.Brush, New Point(611, 171))
+
+        g.DrawString(cha.getAbilityScore(Character.StatList.Strength).ToString, largeFont, BlackPen.Brush, New Point(90, 355))
+        g.DrawString(cha.getAbilityScore(Character.StatList.Dexterity).ToString, largeFont, BlackPen.Brush, New Point(90, 520))
+        g.DrawString(cha.getAbilityScore(Character.StatList.Constitution).ToString, largeFont, BlackPen.Brush, New Point(90, 681))
+        g.DrawString(cha.getAbilityScore(Character.StatList.Intelligence).ToString, largeFont, BlackPen.Brush, New Point(90, 841))
+        g.DrawString(cha.getAbilityScore(Character.StatList.Wisdom).ToString, largeFont, BlackPen.Brush, New Point(90, 1007))
+        g.DrawString(cha.getAbilityScore(Character.StatList.Charisma).ToString, largeFont, BlackPen.Brush, New Point(90, 1171))
+
+        g.DrawString(cha.getModifier(Character.StatList.Strength).ToString, smallFont, BlackPen.Brush, New Point(114, 429))
+        g.DrawString(cha.getModifier(Character.StatList.Dexterity).ToString, smallFont, BlackPen.Brush, New Point(114, 590))
+        g.DrawString(cha.getModifier(Character.StatList.Constitution).ToString, smallFont, BlackPen.Brush, New Point(114, 750))
+        g.DrawString(cha.getModifier(Character.StatList.Intelligence).ToString, smallFont, BlackPen.Brush, New Point(114, 912))
+        g.DrawString(cha.getModifier(Character.StatList.Wisdom).ToString, smallFont, BlackPen.Brush, New Point(114, 1076))
+        g.DrawString(cha.getModifier(Character.StatList.Charisma).ToString, smallFont, BlackPen.Brush, New Point(114, 1238))
+
+        'passive perception
+        g.DrawString(cha.getPassivePerception.ToString, medFont, BlackPen.Brush, New Point(76, 1346))
+        'AC
+        g.DrawString(cha.getACs(0).ToString.Substring(0, 2), largeFont, BlackPen.Brush, New Point(522, 318))
+        'Initiative
+        g.DrawString(cha.getInitiative.ToString, largeFont, BlackPen.Brush, New Point(643, 318))
+        'Speed
+        g.DrawString(cha.getSpeed.ToString, largeFont, BlackPen.Brush, New Point(782, 318))
+        'Proficiency Bonus
+        g.DrawString(cha.getProfBonus.ToString, medFont, BlackPen.Brush, New Point(226, 389))
+        '228,472 is the strength indicator for saving throws
+        '257,470 is appx where the text should be entered for the str saving throw
+        'y iterates by appx 30 for both, but not exactly
+        'same order on character sheet, so iterate through each saving throw
+        'and fill in the circle if it is more than 0
+        Dim sty As Integer() = {472, 502, 534, 563, 596, 626}
+        Dim sby = 472
+
+        For index As Integer = 0 To 5
+            If (cha.getSavingThrow(index) > 0) Then
+                g.FillEllipse(BlackPen.Brush, 228, sty(index), 15, 15)
+                g.DrawString(cha.getSavingThrow(index).ToString, smallFont, BlackPen.Brush, New Point(257, sty(index)))
+            End If
+
+
+        Next
+        sby = 733
+        sty = {733, 763, 794, 825, 856, 887, 918, 948, 979, 1010, 1040, 1071, 1102, 1132, 1163, 1194, 1225, 1255}
+        'now for all the skills, also in the same order
+        '228,733
+        For index As Integer = 0 To 17
+            If (cha.getSkillBonus(index) > 0) Then
+                g.FillEllipse(BlackPen.Brush, 228, sty(index), 15, 15)
+                g.DrawString(cha.getSkillBonus(index).ToString, smallFont, BlackPen.Brush, New Point(257, sty(index)))
+            End If
+
+            sby += 30
+        Next
+
+        '659,446 Max hp
+        g.DrawString(cha.getHP.ToString, medFont, BlackPen.Brush, New Point(659, 436))
+
+        '560,721 hit die
+        g.DrawString(cha.getHitDie.ToString, medFont, BlackPen.Brush, New Point(560, 711))
+
+        g2.DrawString(cha.getAuditLog, medFont, BlackPen.Brush, New Point(100, 100))
+        Try
+            mainimage.Save("C:\\Users\\Daryl\\Pictures\\DnDpics\\" & "1.jpeg", System.Drawing.Imaging.ImageFormat.Jpeg)
+            Auditimage.Save("C:\\Users\\Daryl\\Pictures\\DnDpics\\" & "2.jpeg", System.Drawing.Imaging.ImageFormat.Jpeg)
+
+        Catch ex As Exception
+            Console.WriteLine(ex.ToString)
+        Finally
+            Console.WriteLine("Picture Saved " & "1" & ".jpeg")
+        End Try
+
     End Sub
 End Class
